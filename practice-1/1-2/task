@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+// Функция для подсчёта суммы от 1 до 1000
+unsigned long long calc_sum() {
+    unsigned long long sum = 0;
+    for (int i = 1; i <= 1000; i++) {
+        sum += i;
+    }
+    return sum;
+}
+
+// Функция для подсчёта произведения от 1 до 10
+unsigned long long calc_product() {
+    unsigned long long prod = 1;
+    for (int i = 1; i <= 10; i++) {
+        prod *= i;
+    }
+    return prod;
+}
+
+int main() {
+    pid_t pid = fork();
+
+    if (pid < 0) {
+        perror("fork");
+        exit(EXIT_FAILURE);
+    }
+
+    if (pid == 0) {
+        // Дочерний процесс
+        printf("Дочерний процесс: pid=%d, ppid=%d\n", getpid(), getppid());
+        unsigned long long sum = calc_sum();
+        printf("Дочерний процесс: сумма 1-1000 = %llu\n", sum);
+        exit(EXIT_SUCCESS);
+    } else {
+        // Родительский процесс
+        printf("Родитель: pid=%d, ppid=%d\n", getpid(), getppid());
+        int status;
+        if (wait(&status) < 0) {
+            perror("wait");
+            exit(EXIT_FAILURE);
+        }
+        if (WIFEXITED(status)) {
+            printf("Дочерний процесс завершился успешно.\n");
+        } else {
+            printf("Дочерний процесс завершился с ошибкой.\n");
+        }
+        unsigned long long prod = calc_product();
+        printf("Родитель: произведение 1-10 = %llu\n", prod);
+    }
+
+    return 0;
+}
