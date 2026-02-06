@@ -1,0 +1,8 @@
+Команда: strace ls -la
+total 24
+drwxrwxrwx 1 oksana oksana   512 Feb  6 13:23 .
+drwxrwxrwx 1 oksana oksana   512 Feb  6 12:51 ..
+-rwxrwxrwx 1 oksana oksana    30 Feb  6 13:23 analysis.txt
+-rwxrwxrwx 1 oksana oksana     4 Feb  6 13:21 pidfile.txt
+-rwxrwxrwx 1 oksana oksana 16552 Feb  6 13:21 task
+-rwxrwxrwx 1 oksana oksana  2005 Feb  6 13:21 task.c
