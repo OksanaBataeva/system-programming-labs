@@ -1,0 +1,64 @@
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define NUM_THREADS 3
+
+// Структура для передачи параметров в поток
+typedef struct {
+    const char *filename;
+    int count; // Количество символов
+} ThreadData;
+
+// Массив для хранения данных потоков
+ThreadData thread_data[NUM_THREADS];
+
+void *count_chars(void *arg) {
+    ThreadData *data = (ThreadData *)arg;
+    FILE *file = fopen(data->filename, "r");
+    if (file == NULL) {
+        perror("Ошибка открытия файла");
+        data->count = 0;
+        pthread_exit(NULL);
+    }
+
+    int ch;
+    int total = 0;
+
+    while ((ch = fgetc(file)) != EOF) {
+        total++;
+    }
+
+    fclose(file);
+    data->count = total;
+    pthread_exit(NULL);
+}
+
+int main() {
+    pthread_t threads[NUM_THREADS];
+
+    // Инициализация имён файлов
+    const char *filenames[NUM_THREADS] = {"file1.txt", "file2.txt", "file3.txt"};
+
+    // Создаём потоки
+    for (int i=0; i<NUM_THREADS; i++) {
+        thread_data[i].filename = filenames[i];
+        thread_data[i].count = 0;
+        if (pthread_create(&threads[i], NULL, count_chars, &thread_data[i]) != 0) {
+            perror("Ошибка при создании потока");
+            return 1;
+        }
+    }
+
+    // Ждём завершения потоков и подсчитываем сумму
+    int total_chars = 0;
+    for (int i=0; i<NUM_THREADS; i++) {
+        pthread_join(threads[i], NULL);
+        total_chars += thread_data[i].count;
+        printf("Файл %s содержит %d символов.\n", thread_data[i].filename, thread_data[i].count);
+    }
+
+    printf("Общее количество символов во всех файлах: %d\n", total_chars);
+
+    return 0;
+}
