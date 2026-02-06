@@ -1,0 +1,28 @@
+yes > /dev/null &
+[1] 1178
+
+# Находим PID процесса
+pid=$(ps -C yes -o pid=)
+
+echo "PID процесса: $pid"
+
+PID процесса:    1178
+
+# Проверка CPU 
+top -p $pid &
+
+[2] 1217
+
+# Завершаем процесс
+kill -9 $pid
+echo "Процесс $pid завершен."
+
+echo "Процесс $pid завершен."
+
+[2]+  Stopped                 top -p $pid
+Процесс    1178 завершен.
+[1]-  Killed                  yes > /dev/null
+
+# Проверить, завершен ли процесс
+ps -p $pid
+  PID TTY          TIME CMD
