@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <signal.h>
+#include <fcntl.h>
+
+volatile sig_atomic_t terminate = 0;
+int pid_fd = -1;
+
+void handle_sigterm(int signo) {
+    (void)signo;
+    const char msg[] = "SIGTERM received, shutting down...\n";
+    write(STDOUT_FILENO, msg, sizeof(msg) - 1);
+    terminate = 1;
+}
+
+int main(void) {
+    signal(SIGTERM, handle_sigterm);
+
+    pid_t pid = getpid();
+    pid_fd = open("pidfile.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    if (pid_fd < 0) {
+        perror("open pidfile.txt");
+        return 1;
+    }
+
+    char buf[32];
+    int len = snprintf(buf, sizeof(buf), "%d\n", pid);
+    write(pid_fd, buf, len);
+
+    const char start_msg[] = "Program started. Waiting for SIGTERM...\n";
+    write(STDOUT_FILENO, start_msg, sizeof(start_msg) - 1);
+
+    while (!terminate) {
+        sleep(1);
+    }
+
+    close(pid_fd);
+    unlink("pidfile.txt");
+
+    const char end_msg[] = "Program terminated cleanly.\n";
+    write(STDOUT_FILENO, end_msg, sizeof(end_msg) - 1);
+
+    return 0;
+}
