@@ -1,0 +1,10 @@
+
+# Создаем analysis.txt с командами и результатами
+echo "Команда: strace ls -la" > analysis.txt
+strace ls -la 2>&1 >> analysis.txt
+
+echo -e "\nКоличество вызовов openat(): $(grep openat ls_trace.txt | wc -l)" >> analysis.txt
+echo "Вывод вызовов openat() сохранен в ls_trace.txt" >> analysis.txt
+
+# Сохраняем вызовы openat() в отдельный файл
+strace ls -la 2>&1 | grep openat > ls_trace.txt
