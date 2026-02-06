@@ -1,0 +1,53 @@
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define NUM_THREADS 3
+#define OPERATIONS 100
+#define INCREMENT 10
+
+// Общая переменная
+int balance = 1000;
+
+// Мьютекс для синхронизации
+pthread_mutex_t mutex;
+
+void *thread_func(void *arg) {
+    for (int i = 0; i < OPERATIONS; i++) {
+        // Блокировка мьютекса
+        pthread_mutex_lock(&mutex);
+        balance += INCREMENT; // безопасный доступ к разделяемой переменной
+        pthread_mutex_unlock(&mutex);
+    }
+    pthread_exit(NULL);
+}
+
+int main() {
+    pthread_t threads[NUM_THREADS];
+
+    // Инициализация мьютекса
+    if (pthread_mutex_init(&mutex, NULL) != 0) {
+        perror("Ошибка инициализации мьютекса");
+        return 1;
+    }
+
+    // Создаём потоки
+    for (int i=0; i<NUM_THREADS; i++) {
+        if (pthread_create(&threads[i], NULL, thread_func, NULL) != 0) {
+            perror("Ошибка при создании потока");
+            return 1;
+        }
+    }
+
+    // Ждём завершения всех потоков
+    for (int i=0; i<NUM_THREADS; i++) {
+        pthread_join(threads[i], NULL);
+    }
+
+    // Уничтожение мьютекса
+    pthread_mutex_destroy(&mutex);
+
+    // Вывод итогового результата
+    printf("Итоговое значение balance: %d\n", balance);
+    return 0;
+}
