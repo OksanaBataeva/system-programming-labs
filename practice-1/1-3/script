@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Создаем файл data.txt
+touch data.txt
+echo "Это исходный файл" > data.txt
+
+# Создаем жесткую ссылку
+ln data.txt hardlink.txt
+
+# Создаем символическую ссылку
+ln -s data.txt symlink.txt
+
+# Удаляем исходный файл data.txt
+rm data.txt
+
+# Проверка существования ссылок
+echo "Проверка существования жесткой ссылки:"
+ls -l hardlink.txt
+echo
+
+echo "Проверка существования символической ссылки:"
+ls -l symlink.txt
+echo
+
+# Попытка чтения содержимого через обе ссылки
+echo "Содержимое через жесткую ссылку:"
+cat hardlink.txt
+echo
+
+echo "Содержимое через символьную ссылку:"
+cat symlink.txt
+echo
