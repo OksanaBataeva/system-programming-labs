@@ -1,0 +1,19 @@
+=== Анализ памяти процесса PID 1613 ===
+
+--- ps aux (VSZ и RSS) ---
+    PID    VSZ   RSS %MEM COMMAND
+
+--- /proc/1613/status (VmSize и VmRSS) ---
+
+--- pmap (детализация памяти) ---
+
+--- top (в реальном времени) ---
+[?1h=[?25l[H[2J(B[mtop - 17:56:21 up  1:14,  1 user,  load average: 0.09, 0.02, 0.01(B[m[39;49m(B[m[39;49m[K
+Tasks:(B[m[39;49m[1m   0 (B[m[39;49mtotal,(B[m[39;49m[1m   0 (B[m[39;49mrunning,(B[m[39;49m[1m   0 (B[m[39;49msleeping,(B[m[39;49m[1m   0 (B[m[39;49mstopped,(B[m[39;49m[1m   0 (B[m[39;49mzombie(B[m[39;49m(B[m[39;49m[K
+%Cpu(s):(B[m[39;49m[1m  0.0 (B[m[39;49mus,(B[m[39;49m[1m  0.0 (B[m[39;49msy,(B[m[39;49m[1m  0.0 (B[m[39;49mni,(B[m[39;49m[1m100.0 (B[m[39;49mid,(B[m[39;49m[1m  0.0 (B[m[39;49mwa,(B[m[39;49m[1m  0.0 (B[m[39;49mhi,(B[m[39;49m[1m  0.0 (B[m[39;49msi,(B[m[39;49m[1m  0.0 (B[m[39;49mst(B[m[39;49m(B[m (B[m[39;49m(B[m[39;49m[K
+MiB Mem :(B[m[39;49m[1m   3786.1 (B[m[39;49mtotal,(B[m[39;49m[1m   3268.1 (B[m[39;49mfree,(B[m[39;49m[1m    379.7 (B[m[39;49mused,(B[m[39;49m[1m    213.7 (B[m[39;49mbuff/cache(B[m[39;49m(B[m (B[m[39;49m(B[m    (B[m[39;49m(B[m[39;49m[K
+MiB Swap:(B[m[39;49m[1m   1024.0 (B[m[39;49mtotal,(B[m[39;49m[1m   1024.0 (B[m[39;49mfree,(B[m[39;49m[1m      0.0 (B[m[39;49mused.(B[m[39;49m[1m   3406.4 (B[m[39;49mavail Mem (B[m[39;49m(B[m[39;49m[K
+[K
+[7m    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND  (B[m[39;49m[K
+[J[?1l>[25;1H
+[?12l[?25h[K
