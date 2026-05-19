@@ -1,0 +1,9 @@
+=== Диагностика: TCP-сервер на порту 8080 ===
+
+=== Определение PID процесса nc ===
+Команда: ps aux | grep nc | grep -v grep
+root           6  0.0  0.0   3172  2044 hvc0     Sl+  16:40   0:00 plan9 --control-socket 7 --log-level 4 --server-fd 8 --pipe-fd 10 --log-truncate
+systemd+     111  0.0  0.2  91028  7912 ?        Ssl  16:40   0:00 /usr/lib/systemd/systemd-timesyncd
+
+=== Проверка сокетов на порту 8080 через lsof ===
+Команда: lsof -i :8080
